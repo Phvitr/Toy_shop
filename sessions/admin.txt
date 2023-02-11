@@ -1,0 +1,1 @@
+{"name":"trung","username":"admin","role":0,"email":"phvitrung@gmail.com","phone":839684055,"address":"Hanoi"}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            height: 100vh;
+            background: linear-gradient(135deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+            width: 100%;
+            padding-right: 5%;
+            padding-left: 3%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .navbar {
+            width: 100%;
+            height: 15vh;
+            margin: auto;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 200px;
+            width: 200px;
+            margin-top: 100px;
+            cursor: pointer;
+        }
+        nav {
+            flex: 1;
+            padding-left: 1000px;
+        }
+        nav ul li {
+            display: inline-block;
+            list-style: none;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            mix-blend-mode: screen;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 35px;
+            background-color: #fff;
+            text-transform: uppercase;
+            font-size: 17px;
+            font-weight: 600;
+        }
+        nav ul li a:hover {
+            color: #fff;
+            background: linear-gradient(-90deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+            transition: all .3s;
+        }
+        .content {
+            padding-top: 60px;
+            position: relative;
+        }
+        h1 {
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: .1em;
+            font-size: 50px;
+            margin-top: 100px;
+            color: #fff;
+        }
+        h1 .style {
+            color: #fff;
+            font-size: 80px;
+            font-weight: 900;
+        }
+        p {
+            font-size: 15px;
+            color: #fff;
+            letter-spacing: .1em;
+            margin-top: 35px;
+            font-weight: 500;
+        }
+        .text {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .btn {
+            mix-blend-mode: screen;
+            background-color: #fff;
+            padding: 12px 35px;
+            margin-top: 70px;
+            margin-left: 50px;
+            border: none;
+            outline: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 30px;
+            display: block;
+            font-size: 25px;
+            font-weight: 700;
+            transition: all .3s;
+        }
+        .btn:hover {
+            background: linear-gradient(-90deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+            color: #fff;
+            transition: all .3s;
+        }
+        .social-media {
+            margin-top: 70px;
+            text-decoration: none;
+            font-size: 33px;
+        }
+        .fa {
+            color: #fff;
+            margin-left: 10px;
+        }
+        .fa:hover {
+            transform: scale(1.2);
+            transition: all .5s;
+        }
+        .image {
+            position: absolute;
+            bottom: 0;
+            width: 600px;
+            height: 650px;
+            margin-bottom: -150px;
+            margin-left: 1100px;
+            box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
+            border-radius: 10px 10px 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <img src="/public/images/pepelogo2.png" class="logo">
+        <nav>
+            <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/founders">Creaters</a></li>
+                <li><a href="https://www.facebook.com/ph.v.tr">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <h1>WE SELL TOYS<br><span class="style"> YES! LOTS OF TOYS.</span></h1>
+        <p>Get ready to play, Pepe-style!<br>At our toy shop, we bring joy to kids of all ages with fun, educational toys and games. <br>Hop in and let the good times roll!</p>
+        <div class="text">
+            <div class="social-media">
+                <a href=""><i class="fa fa-twitter"></i></a>
+                <a href=""><i class="fa fa-instagram"></i></a>
+                <a href=""><i class="fa fa-facebook"></i></a>
+            </div>
+            <button class="btn">SHOP NOW</button>
+        </div>
+        <img src="/public/images/pepebig.png" class="image">
+    </div>
+</div>
+</body>
+</html>
