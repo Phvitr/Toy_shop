@@ -77,10 +77,11 @@ class Handle extends BaseHandle {
             newHTML += `<h2>${toy.name}</h2>`;
             newHTML += `<p>${toy.description}</p>`;
             newHTML += `<ul>`;
-            newHTML += `<li>${toy.categoryId}</li>`;
-            newHTML += `<li>${toy.countryId}</li>`;
+            newHTML += `<li>${(toy.categoryId === 1) ? 'lEGO' : 'Others'}</li>`;
+            newHTML += `<li>${(toy.countryId === 1) ? 'USA' : 'China'}</li>`;
             newHTML += `<li>${toy.age}</li>`;
             newHTML += `</ul>`;
+            newHTML += `<p>${toy.price} VND</p>`;
             newHTML += `<button>Add to Cart</button>`;
             newHTML += '</div>';
             newHTML += '</div>';
@@ -103,10 +104,11 @@ class Handle extends BaseHandle {
             newHTML += `<h2>${toy.name}</h2>`;
             newHTML += `<p>${toy.description}</p>`;
             newHTML += `<ul>`;
-            newHTML += `<li>${toy.categoryId}</li>`;
-            newHTML += `<li>${toy.countryId}</li>`;
+            newHTML += `<li>${(toy.categoryId === 1) ? 'lEGO' : 'Others'}</li>`;
+            newHTML += `<li>${(toy.countryId === 1) ? 'USA' : 'China'}</li>`;
             newHTML += `<li>${toy.age}</li>`;
             newHTML += `</ul>`;
+            newHTML += `<p>${toy.price} VND</p>`;
             newHTML += `<button>Add to Cart</button>`;
             newHTML += '</div>';
             newHTML += '</div>';
@@ -165,7 +167,7 @@ class Handle extends BaseHandle {
             let dataForm = qs.parse(data);
             let sql = `CALL addUser('${dataForm.name}','${dataForm.username}', '${dataForm.password}', '${dataForm.role}', '${dataForm.age}', '${dataForm.email}', '${dataForm.phone}', '${dataForm.address}')`;
             await this.querySQL(sql);
-            res.writeHead(301, {Location: '/userspage'});
+            res.writeHead(301, {Location: '/login'});
             res.end();
         })
     }
