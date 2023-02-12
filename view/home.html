@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HomePage</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .header {
+      background-color: transparent;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+      padding: 0 50px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 900px;
+      margin: 0 auto;
+      z-index: 999;
+    }
+    .header img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .header h1 {
+      mix-blend-mode: screen;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 35px;
+      background: linear-gradient(135deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+      text-transform: uppercase;
+      font-size: 25px;
+      font-weight: 600;
+      margin-left: 80px;
+    }
+    .header ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    .header li {
+      margin-right: 20px;
+    }
+    .header a {
+      mix-blend-mode: screen;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 35px;
+      background-color: #fff;
+      text-transform: uppercase;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .header a:hover {
+      color: #fff;
+      background: linear-gradient(-90deg,#ebd946 ,#283c85 , #9b9f9b, #358931);
+      transition: all .3s;
+    }
+    .banner {
+      background-image: url(../public/images/pepegif.gif);
+      background-size: cover;
+      height: 300px;
+      margin-top: 100px;
+    }
+    .product {
+      background-color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .product img {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 75%;
+    }
+
+    .product h2 {
+      margin-bottom: 10px;
+    }
+
+    .product p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .product ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .product button {
+      padding: 5px 10px;
+      font-size: 12px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .promotions {
+      text-align: center;
+      height: 50px;
+      padding: 50px 0;
+      margin-top: 25px;
+      margin-bottom: 25px;
+      background-image: url(../public/images/pepebanner2.png);
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+    }
+
+    .promotions h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .promotions p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <img src="../public/images/pepe.png">
+    <h1>ToY SHOP</h1>
+    <ul>
+      <li><a href="#">Cart</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </div>
+  <div class="banner"></div>
+  <section class="promotions">
+    <h2>Featured Deals</h2>
+    <p>Check out our latest deals on the hottest products. Limited time only!</p>
+  </section>
+  <div class="products">
+    <div class="product">
+      <img src="https://via.placeholder.com/150x150" alt="Product 1 Image">
+      <div class="product-info">
+        <h2>Product 1</h2>
+        <p>Lorem ipsum dolor sit amet.</p>
+        <ul>
+          <li>Product detail 1</li>
+          <li>Product detail 2</li>
+          <li>Product detail 3</li>
+        </ul>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/150x150" alt="Product 2 Image">
+      <div class="product-info">
+        <h2>Product 2</h2>
+        <p>Lorem ipsum dolor sit amet.</p>
+        <ul>
+          <li>Product detail 1</li>
+          <li>Product detail 2</li>
+          <li>Product detail 3</li>
+        </ul>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/150x150" alt="Product 2 Image">
+      <div class="product-info">
+        <h2>Product 3</h2>
+        <p>Lorem ipsum dolor sit amet.</p>
+        <ul>
+          <li>Product detail 1</li>
+          <li>Product detail 2</li>
+          <li>Product detail 3</li>
+        </ul>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>

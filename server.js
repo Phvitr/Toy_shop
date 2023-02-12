@@ -7,6 +7,7 @@ const fs = require("fs");
 let mimeTypes={
     'jpg' : 'images/jpg',
     'png' : 'images/png',
+    'gif' : 'images/gif',
     'js' :'text/javascript',
     'css' : 'text/css',
     'svg':'image/svg+xml',
@@ -20,7 +21,7 @@ let mimeTypes={
 const server = http.createServer((req, res) => {
     const methodRequest = req.method;
     let urlPath =url.parse(req.url).pathname;
-    const filesDefences = urlPath .match(/\.js|\.css|\.png|\.svg|\.jpg|\.ttf|\.woff|\.woff2|\.eot/);
+    const filesDefences = urlPath .match(/\.js|\.gif|\.css|\.png|\.svg|\.jpg|\.ttf|\.woff|\.woff2|\.eot/);
     if (filesDefences) {
         const extension = mimeTypes[filesDefences[0].toString().split('.')[1]];
         res.writeHead(200, {'Content-Type': extension});
@@ -45,7 +46,6 @@ const server = http.createServer((req, res) => {
                 break;
             case '/login/users':
                 let cookie = req.headers.cookie;
-
                 let usernameLogin = qs.parse(cookie).u_user;
                 if (!usernameLogin) {
                     res.writeHead(301, {Location: '/login'})
@@ -55,42 +55,32 @@ const server = http.createServer((req, res) => {
                     console.log(err.message)
                 });
                 break;
-            case '/login/userspage':
+            case '/userspage':
                 Handler.showListUsers(req, res).catch(err => {
                     console.log(err.message)
                 });
                 break;
-            case 'login/toypage':
-                Handler.showListToys(req, res).catch(err => {
-                    console.log(err.message)
-                });
-                break;
-            case '/login/dashboard':
-                Handler.showDashboard(req, res).catch(err => {
-                    console.log(err.message)
-                });
-                break;
-            case '/login/userspage/add':
+            case '/userspage/add':
                 Handler.showFormAddUser(req, res).catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case '/login/userspage/store':
+            case '/userspage/store':
                 Handler.storeUser(req, res).catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case '/login/userspage/delete':
+            case '/userspage/delete':
                 Handler.deleteUser(req, res).catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case '/login/userspage/update':
+            case '/userspage/update':
                 Handler.showFormUpdateUser(req, res).catch(err => {
                     console.log(err.message)
                 })
                 break;
-            case '/login/userspage/edit':
+            case '/userspage/edit':
                 Handler.updateUser(req, res).catch(err => {
                     console.log(err.message)
                 })
@@ -110,11 +100,42 @@ const server = http.createServer((req, res) => {
                     console.log(err.message)
                 })
                 break;
+            case '/toypage':
+                Handler.showListToys(req, res).catch(err => {
+                    console.log(err.message)
+                });
+                break;
+            case '/toypage/add':
+                console.log(1);
+                Handler.showFormAddToy(req, res).catch(err => {
+                    console.log(err.message)
+                });
+                break;
+            case '/toypage/store':
+                Handler.storeToy(req, res).catch(err => {
+                    console.log(err.message)
+                });
+                break;
+            case '/toypage/delete':
+                Handler.deleteToy(req, res).catch(err => {
+                    console.log(err.message)
+                })
+                break;
+            case '/toypage/update':
+                Handler.showFormUpdateToy(req, res).catch(err => {
+                    console.log(err.message)
+                })
+                break;
+            case '/toypage/edit':
+                Handler.updateToy(req, res).catch(err => {
+                    console.log(err.message)
+                })
+                break;
             default:
                 res.end();
         }
     }
 })
 server.listen(8000,() => {
-    console.log('server listening on port' + 8000)
+    console.log('server listening on localhost:8000')
 })

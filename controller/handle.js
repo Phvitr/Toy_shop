@@ -45,18 +45,11 @@ class Handle extends BaseHandle {
                 // gan cookie vao header res
                 res.setHeader('Set-Cookie', 'u_user=' + result[0].username);
 
-                res.writeHead(301, {Location: '/login/userspage'});
+                res.writeHead(301, {Location: '/userspage'});
                 return res.end()
             }
         })
     }
-
-    async showDashboard(req, res) {
-        let html = await this.getTemplate('./view/welcomepage.html');
-        res.write(html)
-        res.end();
-    }
-
     async showListUsers(req, res) {
         let html = await this.getTemplate('./view/users/list.html');
         let sql = 'SELECT userId, name, username, role, age, email, phone, address FROM users';
@@ -73,35 +66,8 @@ class Handle extends BaseHandle {
             newHTML += `<td>${user.phone}</td>`;
             newHTML += `<td>${user.address}</td>`;
             newHTML += `<td>
-                            <a onclick="return confirm('Are you sure you want to delete this user?')" href="/login/userspage/delete?id=${user.userId}" class="btn btn-danger">Delete</a>
-                            <a href="/login/userspage/update?id=${user.userId}" class="btn btn-primary">Update</a>
-                        </td>`;
-            newHTML += '</tr>';
-        });
-        html = html.replace('{list-user}', newHTML)
-        res.write(html)
-        res.end();
-    }
-
-    async showListToys(req, res) {
-        let html = await this.getTemplate('./view/users/list.html');
-        let sql = 'SELECT toyId, name, categoryId, countryId, age, description, image, price FROM users';
-        let toys = await this.querySQL(sql);
-        let newHTML = '';
-        toys.forEach((toy, index) => {
-            newHTML += '<tr>';
-            newHTML += `<td>${index + 1}</td>`;
-            newHTML += `<td>${toy.name}</td>`;
-            newHTML += `<td>${toy.categoryId}</td>`;
-            newHTML += `<td>${toy.countryId}</td>`;
-            newHTML += `<td>${toy.age}</td>`;
-            newHTML += `<td>${toy.description}</td>`;
-            newHTML += `<td>${toy.image}</td>`;
-            newHTML += `<td>${toy.price}</td>`;
-
-            newHTML += `<td>
-                            <a onclick="return confirm('Are you sure you want to delete this user?')" href="/login/userspage/delete?id=${user.id}" class="btn btn-danger">Delete</a>
-                            <a href="/login/userspage/update?id=${user.id}" class="btn btn-primary">Update</a>
+                            <a onclick="return confirm('Are you sure you want to delete this user?')" href="/userspage/delete?id=${user.userId}" class="btn btn-danger">Delete</a>
+                            <a href="/userspage/update?id=${user.userId}" class="btn btn-primary">Update</a>
                         </td>`;
             newHTML += '</tr>';
         });
@@ -115,7 +81,7 @@ class Handle extends BaseHandle {
         let id = qs.parse(query).id;
         let sql = 'DELETE FROM users WHERE userId = ' + id;
         await this.querySQL(sql);
-        res.writeHead(301, {Location: '/login/userspage'});
+        res.writeHead(301, {Location: '/userspage'});
         res.end();
     }
 
@@ -134,7 +100,7 @@ class Handle extends BaseHandle {
             let dataForm = qs.parse(data);
             let sql = `CALL addUser('${dataForm.name}','${dataForm.username}', '${dataForm.password}', '${dataForm.role}', '${dataForm.age}', '${dataForm.email}', '${dataForm.phone}', '${dataForm.address}')`;
             await this.querySQL(sql);
-            res.writeHead(301, {Location: '/login/userspage'});
+            res.writeHead(301, {Location: '/userspage'});
             res.end();
         })
     }
@@ -178,7 +144,7 @@ class Handle extends BaseHandle {
 
             let sql = `CALL updateUser('${id}','${dataForm.name}','${dataForm.username}','${dataForm.role}','${dataForm.age}','${dataForm.email}','${dataForm.address}', '${dataForm.phone}')`;
             await this.querySQL(sql);
-            res.writeHead(301, {Location: '/login/userspage'});
+            res.writeHead(301, {Location: '/userspage'});
             res.end();
         })
     }
@@ -203,6 +169,108 @@ class Handle extends BaseHandle {
     async aboutUs(req, res) {
         let html = await this.getTemplate('./view/aboutus.html');
         res.write(html)
+        res.end();
+    }
+
+    async showListToys(req, res) {
+        let html = await this.getTemplate('./view/toys/list.html');
+        // truy van csdl
+        let sql = 'SELECT toyId, name, categoryId, countryId, age, description, image, price FROM toys';
+        let toys = await this.querySQL(sql);
+        console.log(toys)
+        // tao giao  dien su dung data truy van trong csdl
+        let newHTML = '';
+
+        toys.forEach((toy, index) => {
+            newHTML += '<tr>';
+            newHTML += `<td>${index + 1}</td>`;
+            newHTML += `<td>${toy.name}</td>`;
+            newHTML += `<td>${toy.categoryId}</td>`;
+            newHTML += `<td>${toy.countryId}</td>`;
+            newHTML += `<td>${toy.age}</td>`;
+            newHTML += `<td>${toy.description}</td>`;
+            newHTML += `<td>${toy.image}</td>`;
+            newHTML += `<td>${toy.price}</td>`;
+
+            newHTML += `<td>
+                     <a onclick="return confirm('Are you sure you want to delete this Toy?')" href="/toypage/delete?id=${toy.toyId}" class="btn btn-danger">Delete</a>
+                        <a href="/toypage/update?id=${toy.toyId}" class="btn btn-primary">Update</a>
+                    </td>`;
+            newHTML += '</tr>';
+        });
+        // lay data sql thay doi html
+        html = html.replace('{list-toy}', newHTML)
+        //tra ve response
+        res.end(html);
+    }
+    async showFormAddToy(req, res) {
+        let html = await this.getTemplate('./view/toys/add.html');
+        res.write(html)
+        res.end();
+    }
+    async storeToy(req, res) {
+        // lay du  lieu tu  form addToy
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end', async () => {
+            let dataForm = qs.parse(data);
+            console.log(dataForm)
+
+            let sql = `CALL addToy('${dataForm.name}','${dataForm.categoryId}', '${dataForm.countryID}', '${dataForm.age}', '${dataForm.description}', '${dataForm.image}', '${dataForm.price}')`;
+            await this.querySQL(sql);
+            res.writeHead(301, {Location: '/toypage'});
+            res.end();
+        })
+    }
+
+    async showFormUpdateToy(req, res){
+        let html = await this.getTemplate('./view/toys/update.html');
+        // thuc hien truy van toy
+        let query = url.parse(req.url).query;
+        let id = qs.parse(query).id;
+        let sql = 'SELECT * FROM toys WHERE toyId = ' + id;
+        let data = await this.querySQL(sql);
+        console.log(data)
+        html = html.replace('{name}', data[0].name)
+        html = html.replace('{categoryId}', data[0].categoryId)
+        html = html.replace('{countryId}', data[0].countryId)
+        html = html.replace('{age}', data[0].age)
+        html = html.replace('{description}', data[0].description)
+        html = html.replace('{image}', data[0].image)
+        html = html.replace('{price}', data[0].price)
+        html = html.replace('{id}', data[0].toyId)
+        res.write(html)
+        res.end();
+    }
+    async updateToy(req, res) {
+        let query = url.parse(req.url).query;
+        let id = qs.parse(query).id;
+
+        // lay du  lieu tu  form
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end', async () => {
+            let dataForm = qs.parse(data);
+            console.log(dataForm)
+
+            let sql = `CALL updatetoy ('${id}' ,'${dataForm.name}','${dataForm.categoryId}','${dataForm.countryId}','${dataForm.age}','${dataForm.description}','${dataForm.image}', '${dataForm.price}')`;
+            await this.querySQL(sql);
+            res.writeHead(301, {Location: '/toypage'});
+            res.end();
+        })
+    }
+    async deleteToy(req, res) {
+        let query = url.parse(req.url).query;
+        console.log(query)
+        let id = qs.parse(query).id;
+        console.log(id)
+        let sql = 'DELETE FROM toys WHERE toyId = ' + id;
+        await this.querySQL(sql);
+        res.writeHead(301, {Location: '/toypage'});
         res.end();
     }
 }
