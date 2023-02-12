@@ -19,7 +19,7 @@ let mimeTypes={
 
 
 const server = http.createServer((req, res) => {
-    const methodRequest = req.method;
+    // const methodRequest = req.method;
     let urlPath =url.parse(req.url).pathname;
     const filesDefences = urlPath .match(/\.js|\.gif|\.css|\.png|\.svg|\.jpg|\.ttf|\.woff|\.woff2|\.eot/);
     if (filesDefences) {
@@ -34,27 +34,38 @@ const server = http.createServer((req, res) => {
                 });
                 break;
             case '/login':
-                if (methodRequest == 'GET') {
-                    Handler.showFormLogin(req, res).catch(err => {
-                        console.log(err.message)
-                    })
-                } else {
+                // if (methodRequest == 'GET') {
+                //     Handler.showFormLogin(req, res).catch(err => {
+                //         console.log(err.message)
+                //     })
+                // } else {
                     Handler.login(req, res).catch(err => {
-                        console.log(err.message)
+                        console.log(err.message);
                     })
-                }
                 break;
-            case '/login/users':
-                let cookie = req.headers.cookie;
-                let usernameLogin = qs.parse(cookie).u_user;
-                if (!usernameLogin) {
-                    res.writeHead(301, {Location: '/login'})
-                    return res.end();
-                }
-                Handler.showListUsers(req, res).catch(err => {
+            case '/adminhome':
+                Handler.showAdminHome(req, res).catch(err => {
                     console.log(err.message)
                 });
                 break;
+            case '/home':
+                Handler.showHome(req, res).catch(err => {
+                    console.log(err.message)
+                });
+                break;
+
+
+            // case '/login/users':
+            //     let cookie = req.headers.cookie;
+            //     let usernameLogin = qs.parse(cookie).u_user;
+            //     if (!usernameLogin) {
+            //         res.writeHead(301, {Location: '/login'})
+            //         return res.end();
+            //     }
+            //     Handler.showListUsers(req, res).catch(err => {
+            //         console.log(err.message)
+            //     });
+            //     break;
             case '/userspage':
                 Handler.showListUsers(req, res).catch(err => {
                     console.log(err.message)
@@ -106,16 +117,15 @@ const server = http.createServer((req, res) => {
                 });
                 break;
             case '/toypage/add':
-                console.log(1);
                 Handler.showFormAddToy(req, res).catch(err => {
                     console.log(err.message)
                 });
                 break;
-            case '/toypage/store':
-                Handler.storeToy(req, res).catch(err => {
-                    console.log(err.message)
-                });
-                break;
+            // case '/toypage/store':
+            //     Handler.storeToy(req, res).catch(err => {
+            //         console.log(err.message)
+            //     });
+            //     break;
             case '/toypage/delete':
                 Handler.deleteToy(req, res).catch(err => {
                     console.log(err.message)

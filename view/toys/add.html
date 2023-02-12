@@ -46,7 +46,7 @@
             Add New Toy
         </div>
         <div class="card-body">
-            <form method="post" action="/toypage/store">
+            <form enctype="multipart/form-data" method="post" action="/toypage/add">
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="name" aria-describedby="">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">CountryID</label>
-                    <input type="number" class="form-control" name="countryID" id="countryID">
+                    <input type="number" class="form-control" name="countryId" id="countryId">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Age</label>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="mb-3">
                     <label  class="form-label">Image</label>
-                    <input type="text" class="form-control" name="image" id="image" aria-describedby="emailHelp">
+                    <input type="file" class="form-control" name="image" id="image" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label  class="form-label">Price</label>

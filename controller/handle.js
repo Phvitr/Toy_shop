@@ -3,6 +3,8 @@ const url = require("url");
 const qs = require("qs");
 const fs = require("fs");
 const cookie = require('cookie');
+const formidable = require('formidable');
+const mysql = require('mysql2');
 
 
 class Handle extends BaseHandle {
@@ -12,43 +14,106 @@ class Handle extends BaseHandle {
         res.write(html)
         res.end();
     }
-    async showFormLogin(req, res) {
-        let html = await this.getTemplate('./view/login.html');
-        res.write(html)
-        res.end();
-    }
+    // async showFormLogin(req, res) {
+    //     let html = await this.getTemplate('./view/login.html');
+    //     res.write(html)
+    //     res.end();
+    // }
 
     async login(req, res) {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk
-        })
-        req.on('end', async () => {
-            let dataForm = qs.parse(data);
-            let sql = `SELECT name, username, role, email, phone, address
-                       FROM users
-                       WHERE username = '${dataForm.username}'
-                         AND password = '${dataForm.password}'`;
-            let result = await this.querySQL(sql);
-            if (result.length == 0) {
-                res.writeHead(301, {Location: '/login'})
-                return res.end();
-            } else {
-                // tao session luu thong tin dang nhap
-                // tao ten file session
-                let nameFileSessions = result[0].username + '.txt';
-                let dataSession = JSON.stringify(result[0]);
+        if (req.method === 'GET') {
+            let html = await this.getTemplate('./view/Login.html');
+            res.write(html);
+            return res.end();
+        } else {
+            let data = '';
+            req.on('data', chunk => {
+                data += chunk
+            })
+            req.on('end', async () => {
+                let dataForm = qs.parse(data);
+                let sql = `SELECT name, username, role, email, phone, address
+                           FROM users
+                           WHERE username = '${dataForm.username}'
+                             AND password = '${dataForm.password}'`;
+                let result = await this.querySQL(sql);
+                if (result.length == 0) {
+                    res.writeHead(301, {Location: '/login'})
+                    return res.end();
+                } else {
+                    if (result[0].role == '0'){
+                        let nameFileSessions = result[0].username + '.txt';
+                        let dataSession = JSON.stringify(result[0]);
 
-                await this.writeFile('./sessions/' + nameFileSessions, dataSession)
+                        await this.writeFile('./sessions/' + nameFileSessions, dataSession)
+                        res.setHeader('Set-Cookie','u_user=' + result[0].username);
+                        res.writeHead(301, {Location: '/adminhome'});
+                        return res.end()
+                    }
+                    else if (result[0].role == '1') {
+                        let nameFileSessions = result[0].username + '.txt';
+                        let dataSession = JSON.stringify(result[0]);
 
-                // tao cookie
-                // gan cookie vao header res
-                res.setHeader('Set-Cookie', 'u_user=' + result[0].username);
+                        await this.writeFile('./sessions/' + nameFileSessions, dataSession)
+                        res.setHeader('Set-Cookie', 'u_user=' + result[0].username);
+                        res.writeHead(301, {Location: '/home'});
+                        return res.end()
+                    }
+                }
+            })
+        }
+    }
+    async showAdminHome(req, res) {
+        let html = await this.getTemplate('./view/adminhome.html');
+        let sql = 'SELECT toyId, name, categoryId, countryId, age, description, image, price FROM toys';
+        let toys = await this.querySQL(sql);
+        let newHTML = '';
 
-                res.writeHead(301, {Location: '/userspage'});
-                return res.end()
-            }
-        })
+        toys.forEach((toy, index) => {
+            newHTML += '<div class="products">';
+            newHTML += `<div class="product">`;
+            newHTML += `<img src="/upload/${toy.image}" alt="Product 1 Image">`;
+            newHTML += `<div class="product-info">`;
+            newHTML += `<h2>${toy.name}</h2>`;
+            newHTML += `<p>${toy.description}</p>`;
+            newHTML += `<ul>`;
+            newHTML += `<li>${toy.categoryId}</li>`;
+            newHTML += `<li>${toy.countryId}</li>`;
+            newHTML += `<li>${toy.age}</li>`;
+            newHTML += `</ul>`;
+            newHTML += `<button>Add to Cart</button>`;
+            newHTML += '</div>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+        });
+        html = html.replace('{list-toy}', newHTML)
+        res.end(html);
+    }
+    async showHome(req, res) {
+        let html = await this.getTemplate('./view/home.html');
+        let sql = 'SELECT toyId, name, categoryId, countryId, age, description, image, price FROM toys';
+        let toys = await this.querySQL(sql);
+        let newHTML = '';
+
+        toys.forEach((toy, index) => {
+            newHTML += '<div class="products">';
+            newHTML += `<div class="product">`;
+            newHTML += `<img src="/upload/${toy.image}" alt="Product 1 Image">`;
+            newHTML += `<div class="product-info">`;
+            newHTML += `<h2>${toy.name}</h2>`;
+            newHTML += `<p>${toy.description}</p>`;
+            newHTML += `<ul>`;
+            newHTML += `<li>${toy.categoryId}</li>`;
+            newHTML += `<li>${toy.countryId}</li>`;
+            newHTML += `<li>${toy.age}</li>`;
+            newHTML += `</ul>`;
+            newHTML += `<button>Add to Cart</button>`;
+            newHTML += '</div>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+        });
+        html = html.replace('{list-toy}', newHTML)
+        res.end(html);
     }
     async showListUsers(req, res) {
         let html = await this.getTemplate('./view/users/list.html');
@@ -174,11 +239,8 @@ class Handle extends BaseHandle {
 
     async showListToys(req, res) {
         let html = await this.getTemplate('./view/toys/list.html');
-        // truy van csdl
         let sql = 'SELECT toyId, name, categoryId, countryId, age, description, image, price FROM toys';
         let toys = await this.querySQL(sql);
-        console.log(toys)
-        // tao giao  dien su dung data truy van trong csdl
         let newHTML = '';
 
         toys.forEach((toy, index) => {
@@ -189,7 +251,7 @@ class Handle extends BaseHandle {
             newHTML += `<td>${toy.countryId}</td>`;
             newHTML += `<td>${toy.age}</td>`;
             newHTML += `<td>${toy.description}</td>`;
-            newHTML += `<td>${toy.image}</td>`;
+            newHTML += `<td><img width="150" height="150" src="/upload/${toy.image}"></td>`;
             newHTML += `<td>${toy.price}</td>`;
 
             newHTML += `<td>
@@ -198,47 +260,73 @@ class Handle extends BaseHandle {
                     </td>`;
             newHTML += '</tr>';
         });
-        // lay data sql thay doi html
         html = html.replace('{list-toy}', newHTML)
-        //tra ve response
         res.end(html);
     }
     async showFormAddToy(req, res) {
-        let html = await this.getTemplate('./view/toys/add.html');
-        res.write(html)
-        res.end();
-    }
-    async storeToy(req, res) {
-        // lay du  lieu tu  form addToy
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk
-        })
-        req.on('end', async () => {
-            let dataForm = qs.parse(data);
-            console.log(dataForm)
-
-            let sql = `CALL addToy('${dataForm.name}','${dataForm.categoryId}', '${dataForm.countryID}', '${dataForm.age}', '${dataForm.description}', '${dataForm.image}', '${dataForm.price}')`;
-            await this.querySQL(sql);
-            res.writeHead(301, {Location: '/toypage'});
+        if(req.method==='GET'){
+            let html=await this.getTemplate('./view/toys/add.html');
+            res.write(html);
             res.end();
-        })
+        }else{
+            let form = new formidable.IncomingForm();
+            form.uploadDir='./upload/';
+            form.parse(req,async(err,fields,files)=>{
+                let newProduct={
+                    name:fields.name,
+                    categoryId:fields.categoryId,
+                    countryId:fields.countryId,
+                    image:files.image.originalFilename,
+                    description:fields.description,
+                    age:fields.age,
+                    price:fields.price,
+                };
+                let sql=`call addToy('${newProduct.name}','${newProduct.categoryId}','${newProduct.countryId}','${newProduct.age}','${newProduct.description}','${newProduct.image}','${newProduct.price}')`;
+                await this.querySQL(sql);
+                let tmpPath = files.image.filepath;
+                let desPath = form.uploadDir + files.image.originalFilename;
+                fs.rename(tmpPath, desPath, (err) => {
+                    if (err) console.log(err);
+                });
+                res.writeHead(301, { Location: "/toypage" });
+                res.end();
+            })
+        }
     }
+    //     let html = await this.getTemplate('./view/toys/add.html');
+    //     res.write(html)
+    //     res.end();
+    // }
+    // async storeToy(req, res) {
+    //     // lay du  lieu tu  form addToy
+    //     let data = '';
+    //     req.on('data', chunk => {
+    //         data += chunk
+    //     })
+    //     req.on('end', async () => {
+    //         let dataForm = qs.parse(data);
+    //         console.log(dataForm)
+    //
+    //         let sql = `CALL addToy('${dataForm.name}','${dataForm.categoryId}', '${dataForm.countryID}', '${dataForm.age}', '${dataForm.description}', '${dataForm.image}', '${dataForm.price}')`;
+    //         await this.querySQL(sql);
+    //         res.writeHead(301, {Location: '/toypage'});
+    //         res.end();
+    //     })
+    // }
 
     async showFormUpdateToy(req, res){
         let html = await this.getTemplate('./view/toys/update.html');
-        // thuc hien truy van toy
         let query = url.parse(req.url).query;
         let id = qs.parse(query).id;
         let sql = 'SELECT * FROM toys WHERE toyId = ' + id;
         let data = await this.querySQL(sql);
-        console.log(data)
+
         html = html.replace('{name}', data[0].name)
         html = html.replace('{categoryId}', data[0].categoryId)
         html = html.replace('{countryId}', data[0].countryId)
         html = html.replace('{age}', data[0].age)
         html = html.replace('{description}', data[0].description)
-        html = html.replace('{image}', data[0].image)
+        html = html.replace('{image2}', data[0].image2)
         html = html.replace('{price}', data[0].price)
         html = html.replace('{id}', data[0].toyId)
         res.write(html)
@@ -248,20 +336,46 @@ class Handle extends BaseHandle {
         let query = url.parse(req.url).query;
         let id = qs.parse(query).id;
 
-        // lay du  lieu tu  form
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk
-        })
-        req.on('end', async () => {
-            let dataForm = qs.parse(data);
-            console.log(dataForm)
-
-            let sql = `CALL updatetoy ('${id}' ,'${dataForm.name}','${dataForm.categoryId}','${dataForm.countryId}','${dataForm.age}','${dataForm.description}','${dataForm.image}', '${dataForm.price}')`;
+        let Form = new formidable.IncomingForm();
+        Form.uploadDir='./upload/';
+        Form.parse(req,async(err,fields,files)=>{
+            let newProduct={
+                name:fields.name,
+                categoryId:fields.categoryId,
+                countryId:fields.countryId,
+                image:files.image.originalFilename,
+                description:fields.description,
+                age:fields.age,
+                price:fields.price,
+            };
+            let sql=`call updatetoy('${id}','${newProduct.name}','${newProduct.categoryId}','${newProduct.countryId}','${newProduct.age}','${newProduct.description}','${newProduct.image}','${newProduct.price}')`;
             await this.querySQL(sql);
-            res.writeHead(301, {Location: '/toypage'});
+
+            let tmpPath = files.image.filepath;
+            let desPath = Form.uploadDir + files.image.originalFilename;
+            fs.rename(tmpPath, desPath, (err) => {
+                if (err) console.log(err);
+            });
+            res.writeHead(301, { Location: "/toypage" });
             res.end();
         })
+        // let query = url.parse(req.url).query;
+        // let id = qs.parse(query).id;
+        //
+        // // lay du  lieu tu  form
+        // let data = '';
+        // req.on('data', chunk => {
+        //     data += chunk
+        // })
+        // req.on('end', async () => {
+        //     let dataForm = qs.parse(data);
+        //     console.log(dataForm)
+        //
+        //     let sql = `CALL updatetoy ('${id}' ,'${dataForm.name}','${dataForm.categoryId}','${dataForm.countryId}','${dataForm.age}','${dataForm.description}','${dataForm.image}', '${dataForm.price}')`;
+        //     await this.querySQL(sql);
+        //     res.writeHead(301, {Location: '/toypage'});
+        //     res.end();
+        // })
     }
     async deleteToy(req, res) {
         let query = url.parse(req.url).query;

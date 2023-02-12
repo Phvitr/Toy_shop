@@ -1,1 +1,1 @@
-{"name":"PHAM VIET TRUNG","username":"phamtrung","role":1,"email":"mitsumihehe@gmail.com","phone":903379505,"address":"Ngõ 72 Ngách 4"}
+{"name":"PHAM VIET TRUNG","username":"phamtrung","role":0,"email":"mitsumihehe@gmail.com","phone":903379505,"address":"Ngõ 72 Ngách 4"}

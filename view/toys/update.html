@@ -50,7 +50,7 @@
             Update Toy
         </div>
         <div class="card-body">
-            <form method="post" action='/toypage/edit?id={id}'>
+            <form enctype="multipart/form-data" method="post" action='/toypage/edit?id={id}'>
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input required type="text" value="{name}" class="form-control" id="name" name="name"
@@ -78,7 +78,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Image</label>
-                    <input type="text" class="form-control" value="{image}" name="image" id="image" aria-describedby="">
+                    <input type="file" class="form-control" value="{image2}" name="image" id="image" aria-describedby="">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Price</label>

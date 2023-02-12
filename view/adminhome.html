@@ -43,7 +43,7 @@
       text-transform: uppercase;
       font-size: 25px;
       font-weight: 600;
-      margin-left: 80px;
+      margin-left: -200px;
     }
     .header ul {
       list-style: none;
@@ -61,8 +61,9 @@
       border-radius: 35px;
       background-color: #fff;
       text-transform: uppercase;
-      font-size: 17px;
+      font-size: 12px;
       font-weight: 600;
+      margin-right: -10px;
     }
     .header a:hover {
       color: #fff;
@@ -154,10 +155,10 @@
     <img src="../public/images/pepe.png">
     <h1>ToY SHOP</h1>
     <ul>
-      <li><a href="/userspage">Manage Toys</a></li>
-      <li><a href="/toypage">Manage Users</a></li>
+      <li><a href="/userspage">Manage Users</a></li>
+      <li><a href="/toypage">Manage Toys</a></li>
       <li><a href="#">Cart</a></li>
-      <li><a href="#">Logout</a></li>
+      <li><a href="/login">Logout</a></li>
     </ul>
   </div>
   <div class="banner"></div>
@@ -165,47 +166,9 @@
     <h2>Featured Deals</h2>
     <p>Check out our latest deals on the hottest products. Limited time only!</p>
   </section>
-  <div class="products">
-    <div class="product">
-      <img src="https://via.placeholder.com/150x150" alt="Product 1 Image">
-      <div class="product-info">
-        <h2>Product 1</h2>
-        <p>Lorem ipsum dolor sit amet.</p>
-        <ul>
-          <li>Product detail 1</li>
-          <li>Product detail 2</li>
-          <li>Product detail 3</li>
-        </ul>
-        <button>Add to Cart</button>
-      </div>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/150x150" alt="Product 2 Image">
-      <div class="product-info">
-        <h2>Product 2</h2>
-        <p>Lorem ipsum dolor sit amet.</p>
-        <ul>
-          <li>Product detail 1</li>
-          <li>Product detail 2</li>
-          <li>Product detail 3</li>
-        </ul>
-        <button>Add to Cart</button>
-      </div>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/150x150" alt="Product 2 Image">
-      <div class="product-info">
-        <h2>Product 3</h2>
-        <p>Lorem ipsum dolor sit amet.</p>
-        <ul>
-          <li>Product detail 1</li>
-          <li>Product detail 2</li>
-          <li>Product detail 3</li>
-        </ul>
-        <button>Add to Cart</button>
-      </div>
-    </div>
-  </div>
+  <tbody>
+  {list-toy}
+  </tbody>
 </div>
 </div>
 </body>
