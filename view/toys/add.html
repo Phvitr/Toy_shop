@@ -21,14 +21,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/toypage">Toy manager</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            User manager
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Add new</a></li>
-                            <li><a class="dropdown-item" href="#">Show list</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/userspage">User manager</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -49,31 +43,31 @@
             <form enctype="multipart/form-data" method="post" action="/toypage/add">
                 <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" aria-describedby="">
+                    <input required type="text" class="form-control" id="name" name="name" aria-describedby="">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">CategoryId</label>
-                    <input type="number" class="form-control" name="categoryId" id="categoryId" aria-describedby="">
+                    <input required type="number" class="form-control" name="categoryId" id="categoryId" aria-describedby="">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">CountryID</label>
-                    <input type="number" class="form-control" name="countryId" id="countryId">
+                    <input required type="number" class="form-control" name="countryId" id="countryId">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Age</label>
-                    <input type="text" class="form-control" name="age">
+                    <input required type="text" class="form-control" name="age">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <input type="text" class="form-control" name="description" id="description" aria-describedby="">
+                    <input required type="text" class="form-control" name="description" id="description" aria-describedby="">
                 </div>
                 <div class="mb-3">
                     <label  class="form-label">Image</label>
-                    <input type="file" class="form-control" name="image" id="image" aria-describedby="emailHelp">
+                    <input required type="file" class="form-control" name="image" id="image" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
                     <label  class="form-label">Price</label>
-                    <input type="number" class="form-control" name="price">
+                    <input required type="number" class="form-control" name="price">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -77,7 +77,7 @@ class Handle extends BaseHandle {
             newHTML += `<h2>${toy.name}</h2>`;
             newHTML += `<p>${toy.description}</p>`;
             newHTML += `<ul>`;
-            newHTML += `<li>${(toy.categoryId === 1) ? 'lEGO' : 'Others'}</li>`;
+            newHTML += `<li>${(toy.categoryId === 1) ? 'LEGO' : 'Others'}</li>`;
             newHTML += `<li>${(toy.countryId === 1) ? 'USA' : 'China'}</li>`;
             newHTML += `<li>${toy.age}</li>`;
             newHTML += `</ul>`;
@@ -104,7 +104,7 @@ class Handle extends BaseHandle {
             newHTML += `<h2>${toy.name}</h2>`;
             newHTML += `<p>${toy.description}</p>`;
             newHTML += `<ul>`;
-            newHTML += `<li>${(toy.categoryId === 1) ? 'lEGO' : 'Others'}</li>`;
+            newHTML += `<li>${(toy.categoryId === 1) ? 'LEGO' : 'Others'}</li>`;
             newHTML += `<li>${(toy.countryId === 1) ? 'USA' : 'China'}</li>`;
             newHTML += `<li>${toy.age}</li>`;
             newHTML += `</ul>`;
