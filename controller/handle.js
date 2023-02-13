@@ -167,7 +167,7 @@ class Handle extends BaseHandle {
             let dataForm = qs.parse(data);
             let sql = `CALL addUser('${dataForm.name}','${dataForm.username}', '${dataForm.password}', '${dataForm.role}', '${dataForm.age}', '${dataForm.email}', '${dataForm.phone}', '${dataForm.address}')`;
             await this.querySQL(sql);
-            res.writeHead(301, {Location: '/login'});
+            res.writeHead(301, {Location: '/userspage'});
             res.end();
         })
     }
